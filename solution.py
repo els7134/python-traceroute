@@ -128,21 +128,21 @@ def get_route(hostname):
                     bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Try': str(tries), 'IP': addr[0], 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Try': str(tries), 'IP': addr[0], 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Try': str(tries), 'IP': addr[0], 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 else:
                     #Fill in start
