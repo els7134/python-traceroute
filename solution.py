@@ -49,9 +49,9 @@ def build_packet():
     myChecksum = 0
     # Make the header in a similar way to the ping exercise.
     myID = os.getpid() & 0xFFFF
-    header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
     # Append checksum to the header.
-    data = struct.pack('d', time.time())
+    data = struct.pack("d", time.time())
 
     myChecksum = checksum(header + data)
     if sys.platform == 'darwin':
@@ -60,7 +60,7 @@ def build_packet():
     else:
         myChecksum = htons(myChecksum)
 
-    header = struct.pack('bbHHb', ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    header = struct.pack("bbHHb", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
     # Don’t send the packet yet , just return the final packet in this function.
     #Fill in end
 
@@ -73,13 +73,16 @@ def get_route(hostname):
     timeLeft = TIMEOUT
     df = pd.DataFrame(columns=['Hop Count', 'Try', 'IP', 'Hostname', 'Response Code'])
     destAddr = gethostbyname(hostname)
+    # print('destAddr: ' + destAddr)
+    # print('hostname: ' + hostname)
     for ttl in range(1,MAX_HOPS):
         for tries in range(TRIES):
             # destAddr = gethostbyname(hostname)
 
             #Fill in start
             # Make a raw socket named mySocket
-            mySocket = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)
+            icmp = getprotobyname("icmp")
+            mySocket = socket(AF_INET, SOCK_RAW, icmp)
             #print (tries)
             #print (mySocket)
             #Fill in end
@@ -101,6 +104,7 @@ def get_route(hostname):
                     #print (df)
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
+                #print(str(addr[0]))
                 timeReceived = time.time()
                 timeLeft = timeLeft - howLongInSelect
                 if timeLeft <= 0:
@@ -117,7 +121,8 @@ def get_route(hostname):
             else:
                 #Fill in start
                 #Fetch the icmp type from the IP packet
-                types, = struct.unpack('b', recvPacket[20:21])
+                icmpHeader = recvPacket[20:28]
+                request_type, types, checksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
                 # print("here in else")
                 print(types)
                 #Fill in end
@@ -153,7 +158,9 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
+                    print('in 0')
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
+                    print(df)
                     #Fill in end
                 else:
                     # Fill in start
