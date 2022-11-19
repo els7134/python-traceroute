@@ -165,7 +165,7 @@ def get_route(hostname):
                 else:
                     # Fill in start
                     #If there is an exception/error to your if statements, you should append that to your df here
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(destAddr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 break
     print(df)
