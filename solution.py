@@ -115,11 +115,11 @@ def get_route(hostname):
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
-                    hostname = gethostbyaddr(addr[0])[0]
+                    hname = gethostbyaddr(addr[0])[0]
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
-                    hostname = 'hostname not returnable'
+                    hname = 'hostname not returnable'
                     #Fill in end
 
                 if types == 11:
@@ -128,28 +128,26 @@ def get_route(hostname):
                     bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 else:
-                    #Fill in start
+                    # Fill in start
                     #If there is an exception/error to your if statements, you should append that to your df here
-                    df = df.append(
-                        {'Hop Count': str(ttl), 'Try': str(tries), 'IP': addr[0], 'Hostname': hostname, 'Response Code': str(types)},
-                        ignore_index=True)
+                    # df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
                     #Fill in end
                 break
     return df
