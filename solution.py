@@ -144,7 +144,7 @@ def get_route(hostname):
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
-                else:
+                #else:
                     # Fill in start
                     #If there is an exception/error to your if statements, you should append that to your df here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
