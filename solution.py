@@ -159,7 +159,7 @@ def get_route(hostname):
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
                     print('in 0')
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(destAddr[0]), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(destAddr), 'Hostname': hostname, 'Response Code': str(types)}, ignore_index=True)
 
                     print(df)
                     #Fill in end
