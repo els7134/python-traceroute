@@ -99,7 +99,7 @@ def get_route(hostname):
                 if whatReady[0] == []: # Timeout
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries+1), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
                     #print ('in whatready')
                     print (df)
                     #Fill in end
@@ -110,19 +110,19 @@ def get_route(hostname):
                 if timeLeft <= 0:
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries+1), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
                     #print('in timeleft <= 0')
                     print (df)
                     #Fill in end
             except Exception as e:
-                #print (e) # uncomment to view exceptions
+                print (e) # uncomment to view exceptions
                 continue
 
             else:
                 #Fill in start
                 #Fetch the icmp type from the IP packet
                 icmpHeader = recvPacket[20:28]
-                request_type, types, checksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
+                types, code, checksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
                 # print("here in else")
                 #print(types)
                 #Fill in end
@@ -168,7 +168,7 @@ def get_route(hostname):
                     # Fill in start
                     #If there is an exception/error to your if statements, you should append that to your df here
                     # break
-                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': 'error'}, ignore_index=True)
+                    df = df.append({'Hop Count': str(ttl), 'Try': str(tries+1), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': 'error'}, ignore_index=True)
                     #print(df)
                     #Fill in end
                 break
