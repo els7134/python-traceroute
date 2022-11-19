@@ -97,9 +97,7 @@ def get_route(hostname):
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries+1), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
-                    print(df)
-                    mySocket.close()
-                    #print (df)
+                    #print(df)                    #print (df)
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
                 timeReceived = time.time()
@@ -108,9 +106,7 @@ def get_route(hostname):
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
-                    print(df)
-                    mySocket.close()
-                    #print (df)
+                    #print(df)                    #print (df)
                     #Fill in end
             except Exception as e:
                 #print (e) # uncomment to view exceptions
@@ -137,8 +133,7 @@ def get_route(hostname):
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
-                    print(df)
-                    mySocket.close()
+                    #print(df)
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
@@ -146,8 +141,7 @@ def get_route(hostname):
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
-                    print(df)
-                    mySocket.close()
+                    #print(df)
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
@@ -155,8 +149,7 @@ def get_route(hostname):
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
-                    print(df)
-                    mySocket.close()
+                    #print(df)
                     #Fill in end
                 else:
                     #Fill in start
