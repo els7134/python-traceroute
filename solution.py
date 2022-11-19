@@ -5,6 +5,8 @@ import struct
 import time
 import select
 import binascii
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import pandas as pd
 
 ICMP_ECHO_REQUEST = 8
@@ -78,6 +80,8 @@ def get_route(hostname):
             #Fill in start
             # Make a raw socket named mySocket
             mySocket = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)
+            #print (tries)
+            #print (mySocket)
             #Fill in end
 
             mySocket.setsockopt(IPPROTO_IP, IP_TTL, struct.pack('I', ttl))
@@ -93,6 +97,7 @@ def get_route(hostname):
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
+                    print ('in whatready')
                     #print (df)
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
@@ -102,20 +107,24 @@ def get_route(hostname):
                     #Fill in start
                     #append response to your dataframe including hop #, try #, and "Timeout" responses as required by the acceptance criteria
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': 'timeout', 'Hostname': 'timeout', 'Response Code': 'timeout'}, ignore_index=True)
+                    print('in timeleft <= 0')
                     #print (df)
                     #Fill in end
             except Exception as e:
-                #print (e) # uncomment to view exceptions
+                print (e) # uncomment to view exceptions
                 continue
 
             else:
                 #Fill in start
                 #Fetch the icmp type from the IP packet
                 types, = struct.unpack('b', recvPacket[20:21])
+                # print("here in else")
+                print(types)
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
                     hname = gethostbyaddr(addr[0])[0]
+                    print(hname)
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
@@ -129,6 +138,8 @@ def get_route(hostname):
                     #Fill in start
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
+                    print("in 11")
+                    print(df)
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
@@ -144,12 +155,13 @@ def get_route(hostname):
                     #You should update your dataframe with the required column field responses here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
-                #else:
+                else:
                     # Fill in start
                     #If there is an exception/error to your if statements, you should append that to your df here
                     df = df.append({'Hop Count': str(ttl), 'Try': str(tries), 'IP': str(addr[0]), 'Hostname': hname, 'Response Code': str(types)}, ignore_index=True)
                     #Fill in end
                 break
+    print(df)
     return df
 
 if __name__ == '__main__':
